@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MZE Cellular</title>
+  <style>
+    /* === Global Styles === */
+    html {
+      scroll-behavior: smooth;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: #fff;
+    }
+
+    /* === Header === */
+    header {
+      background-color: #fff;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border-bottom: 2px solid #f0f0f0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100vw;
+    }
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: #1a1a1a;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 600;
+      position: relative;
+    }
+    .nav-links a:hover {
+      color: #ff9900;
+    }
+
+    /* === Homepage Section === */
+    .homepage {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 50px;
+      background-color: #ff9900;
+      height: 100vh;
+      width: 100vw;
+    }
+    .text-content {
+      max-width: 50%;
+      color: #111;
+    }
+    .text-content h1 {
+      font-size: 54px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .text-content h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .text-content p {
+      font-size: 18px;
+      font-weight: 400;
+      color: #222;
+    }
+    .text-content .btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background-color: #111;
+      color: #fff;
+      border: none;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .text-content .btn:hover {
+      background-color: #333;
+    }
+    .homepage-image {
+      width: 500px;
+      height: 400px;
+      border-radius: 50% 0 0 50%;
+      overflow: hidden;
+      box-shadow: -10px 10px 30px rgba(0,0,0,0.1);
+    }
+    .homepage-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* === About Section === */
+    .about-section {
+      background-color: #fff;
+      padding: 80px 50px;
+      width: 100vw;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+    .about-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      height: 100%;
+    }
+    .about-left, .about-right {
+      flex: 1;
+      min-width: 300px;
+    }
+    .about-left img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .about-label {
+      background-color: #eef4ff;
+      color: #ff9900;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 14px;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    .about-right h2 {
+      font-size: 32px;
+      color: #0f172a;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .about-subtext {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tabs button {
+      background: none;
+      border: 1px solid #ccc;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #333;
+    }
+    .tabs button.active {
+      background-color: #ff9900;
+      color: white;
+      border-color: #ff9900;
+    }
+    .tab-content {
+      background-color: #f9f9ff;
+      padding: 20px;
+      border: 1px solid #e0e0ff;
+      border-radius: 10px;
+    }
+
+    /* === Services Section === */
+    .services-section {
+      padding: 80px 0;
+      background-color: #fff;
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .services-header {
+      margin-bottom: 50px;
+    }
+    .services-header .section-label {
+      color: #ff9900;
+      font-size: 18px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .services-header h2 {
+      font-size: 48px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 auto;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      padding: 0 50px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 20px;
+      padding: 40px 30px;
+      transition: all 0.3s ease;
+      text-align: center;
+      height: 100%;
+    }
+    .service-card.active {
+      background: #2b2d42;
+      color: #fff;
+    }
+    .service-card h3 {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .service-card p {
+      font-size: 16px;
+      margin-top: 10px;
+      color: inherit;
+    }
+    .icon-circle {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      background-color: #ffe6e6;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .service-card.active .icon-circle {
+      background-color: #fff;
+    }
+    .icon-circle img {
+      width: 50px;
+      height: 50px;
+    }
+
+    /* === Team Section === */
+    .teampage {
+      width: 100vw;
+      height: 100vh;
+      background-color: #fff;
+      box-sizing: border-box;
+      padding: 60px 20px;
+    }
+    .responsive-container-block.container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .team-head-text {
+      font-size: 48px;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .responsive-container-block {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+    }
+    .card-container {
+      width: 280px;
+    }
+    .card {
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 30px 25px;
+      border-radius: 10px;
+    }
+    .team-image-wrapper {
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 20px;
+      clip-path: circle(50% at 50% 50%);
+      overflow: hidden;
+    }
+    .team-member-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .name {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+    .position {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #666;
+    }
+    .feature-text {
+      font-size: 14px;
+      color: #7a7a7a;
+      margin-bottom: 20px;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    .social-icons img {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* === Footer === */
+    footer {
+      background-color: #111;
+      color: #fff;
+      padding: 40px 50px;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    footer h3, footer h4 {
+      color: #ff9900;
+      margin-bottom: 10px;
+    }
+
+    footer ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    footer ul li {
+      margin-bottom: 8px;
+    }
+
+    footer ul li a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer ul li a:hover {
+      color: #ff9900;
+    }
+
+    footer .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    footer .footer-section {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    footer .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    footer .social-icons img {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    footer .social-icons img:hover {
+      transform: scale(1.2);
+    }
+
+    footer hr {
+      margin: 30px 0;
+      border-color: #333;
+    }
+
+    footer p.copyright {
+      text-align: center;
+      color: #777;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#team">Team</a>
+      <a href="login.php">Login</a>
+    </nav>
+  </header>
+
+  <section class="homepage" id="home">
+    <div class="text-content">
+      <h1>MZE Cellular</h1>
+      <h3>Employee's Performance Evaluation</h3>
+      <p>MZE Cellular is dedicated to enhancing employee performance through structured evaluations, innovative feedback systems, and continuous professional development.</p>
+      <button class="btn">Learn More</button>
+    </div>
+    <div class="homepage-image">
+      <img src="z.jpg" alt="Team Photo">
+    </div>
+  </section>
+
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <div class="about-left">
+        <img src="a.jpg" alt="Team Working">
+      </div>
+      <div class="about-right">
+        <span class="about-label">About Us</span>
+        <h2>We Help Our Clients To Grow Their Business</h2>
+        <p class="about-subtext">Nigga na naka smile</p>
+        <div class="tabs">
+          <button onclick="setTab('story')" id="tab-story">Story</button>
+          <button onclick="setTab('mission')" id="tab-mission">Mission</button>
+          <button onclick="setTab('vision')" id="tab-vision" class="active">Vision</button>
+        </div>
+        <div class="tab-content" id="tab-content">
+          <p><strong>Vision:</strong> Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="services-header">
+      <span class="section-label">— What we do —</span>
+      <h2>Performance Evaluation Features</h2>
+    </div>
+   <div class="services-grid">
+      <div class="service-card">
+        <div class="icon-circle"><img src="icon1.png" alt="Icon 1"></div>
+        <h3>Real-Time Feedback</h3>
+        <p>Timely insights to help employees adjust and improve continuously.</p>
+      </div>
+      <div class="service-card active">
+        <div class="icon-circle"><img src="icon2.png" alt="Icon 2"></div>
+        <h3>Performance Reports</h3>
+        <p>Detailed analytics showing individual and team performance metrics.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-circle"><img src="icon3.png" alt="Icon 3"></div>
+        <h3>Growth Tracking</h3>
+        <p>Track progress over time with goal-setting and progress bars.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-circle"><img src="icon4.png" alt="Icon 4"></div>
+        <h3>Recognition System</h3>
+        <p>Motivate employees with achievements and rewards for performance.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-circle"><img src="icon5.png" alt="Icon 5"></div>
+        <h3>Custom Evaluations</h3>
+        <p>Create department-specific criteria tailored to different roles.</p>
+      </div>
+      <div class="service-card">
+        <div class="icon-circle"><img src="icon6.png" alt="Icon 6"></div>
+        <h3>Collaboration Metrics</h3>
+        <p>Measure teamwork, communication, and collaborative efforts.</p>
+      </div>
+    </div>
+  </section>
+  <!-- ✅ Our Team Section -->
+   <section class="teampage" id="team">
+  <div class="responsive-container-block container">
+    <p class="text-blk team-head-text">Our Team</p>
+    <div class="responsive-container-block">
+      <!-- Add your 8 card containers here -->
+      <!-- One card as example -->
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png">
+          </div>
+          <p class="text-blk name">Davis George</p>
+          <p class="text-blk position">CEO</p>
+          <p class="text-blk feature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="social-icons">
+            <a href="https://www.twitter.com" target="_blank">
+              <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png">
+          </div>
+          <p class="text-blk name">Davis George</p>
+          <p class="text-blk position">CEO</p>
+          <p class="text-blk feature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="social-icons">
+            <a href="https://www.twitter.com" target="_blank">
+              <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png">
+          </div>
+          <p class="text-blk name">Davis George</p>
+          <p class="text-blk position">CEO</p>
+          <p class="text-blk feature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="social-icons">
+            <a href="https://www.twitter.com" target="_blank">
+              <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png">
+          </div>
+          <p class="text-blk name">Davis George</p>
+          <p class="text-blk position">CEO</p>
+          <p class="text-blk feature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="social-icons">
+            <a href="https://www.twitter.com" target="_blank">
+              <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="responsive-cell-block wk-desk-3 wk-ipadp-3 wk-tab-6 wk-mobile-12 card-container">
+        <div class="card">
+          <div class="team-image-wrapper">
+            <img class="team-member-image" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/expert1.png">
+          </div>
+          <p class="text-blk name">Davis George</p>
+          <p class="text-blk position">CEO</p>
+          <p class="text-blk feature-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <div class="social-icons">
+            <a href="https://www.twitter.com" target="_blank">
+              <img class="twitter-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg">
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+              <img class="facebook-icon" src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg">
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- Repeat 7 more cards as needed -->
+    </div>
+  </div>
+  </section>
+  <footer style="background-color:#111; color:#fff; padding: 40px 50px; width: 100%;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
+    <div style="flex: 1; min-width: 250px;">
+      <h3 style="color: #ff9900;">MZE Cellular</h3>
+      <p style="margin-top: 10px;">Driving performance through innovation, evaluation, and growth.</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 200px;">
+      <h4 style="margin-bottom: 10px; color: #ff9900;">Quick Links</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li><a href="#home" style="color: #fff; text-decoration: none;">Home</a></li>
+        <li><a href="#about" style="color: #fff; text-decoration: none;">About</a></li>
+        <li><a href="#team" style="color: #fff; text-decoration: none;">Team</a></li>
+        <li><a href="#" style="color: #fff; text-decoration: none;">Contacts</a></li>
+        <li><a href="#" style="color: #fff; text-decoration: none;">Login</a></li>
+      </ul>
+    </div>
+
+    <div style="flex: 1; min-width: 200px;">
+      <h4 style="margin-bottom: 10px; color: #ff9900;">Connect with Us</h4>
+      <div style="display: flex; gap: 15px; margin-top: 10px;">
+        <a href="https://www.facebook.com" target="_blank"><img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon-1.svg" alt="Facebook" width="20"></a>
+        <a href="https://www.twitter.com" target="_blank"><img src="https://workik-widget-assets.s3.amazonaws.com/widget-assets/images/Icon.svg" alt="Twitter" width="20"></a>
+        <a href="#" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/linkedin.png" alt="LinkedIn" width="20"></a>
+      </div>
+    </div>
+  </div>
+  <hr style="margin: 30px 0; border-color: #333;">
+  <p style="text-align: center; color: #777;">&copy; 2025 MZE Cellular. All rights reserved.</p>
+</footer>
+
+
+  <script>
+    function setTab(tab) {
+      const buttons = document.querySelectorAll('.tabs button');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      const content = {
+        story: "<p><strong>Story:</strong> Isang taong nagtayo ng katarantaduhan.</p>",
+        mission: "<p><strong>Mission:</strong> Mangurat ng mga nigga.</p>",
+        vision: "<p><strong>Vision:</strong> Makitang maurat ang mga nigga.</p>"
+      };
+      document.getElementById('tab-content').innerHTML = content[tab];
+    }
+    setTab('vision');
+  </script>
+</body>
+</html>

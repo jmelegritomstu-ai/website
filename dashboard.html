@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MZE Analytics Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden; /* prevent scroll */
+    }
+
+    body {
+      display: flex;
+      background-color: white;
+      color: #333;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 20vw;
+      background-color: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    /* Logo Section */
+    .logo-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-section img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    .logo-section h2 {
+      font-size: 1.2rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding-left: 20px;
+    }
+
+    .tab {
+      cursor: pointer;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tab:hover {
+      background-color: #222;
+    }
+
+    .tab.active {
+      background-color: #444;
+    }
+
+    .tab.logout {
+      color: gray;
+      margin-top: auto;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 25px;
+      background-color: white;
+      border-radius: 20px;
+    }
+
+    /* Dashboard sections */
+    .dashboard-section {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      gap: 20px;
+    }
+
+    /* Top 4 boxes */
+    .top-boxes {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .box {
+      background-color: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .box:hover {
+      background-color: #7c3aed;
+      color: white;
+      border-color: #7c3aed;
+      transform: translateY(-3px);
+    }
+
+    /* Chart area */
+    .chart-section {
+      flex: 2;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    /* Bottom Table or Summary section */
+    .bottom-section {
+      flex: 1.2;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      border: 2px solid #e0e0e0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+      <div class="sidebar">
+    <div>
+      <div class="brand">
+        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="MZE Logo" />
+        <h2>MZE Cellular</h2>
+      </div>
+
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reports.html" class="active">Reports</a>
+        <a href="analytics.html">Analytics</a>
+        <a href="#">Employees</a>
+        <a href="#">Inventory</a>
+        <a href="#">Settings</a>
+      </div>
+    </div>
+    <div class="logout ">Logout</div>
+  </div>
+
+    <div class="tab logout">Logout</div>
+  </div>
+
+  <!-- Main Dashboard Layout -->
+  <div class="main-content">
+    <div class="dashboard-section">
+
+      <!-- Top Summary Boxes -->
+      <div class="top-boxes">
+        <div class="box">
+          <h3>1,600</h3>
+          <p>Users Active</p>
+        </div>
+        <div class="box">
+          <h3>357</h3>
+          <p>Click Events</p>
+        </div>
+        <div class="box">
+          <h3>2,300</h3>
+          <p>Purchases</p>
+        </div>
+        <div class="box">
+          <h3>940</h3>
+          <p>Likes</p>
+        </div>
+      </div>
+
+      <!-- Chart Section -->
+      <div class="chart-section">
+        Chart Section Placeholder
+      </div>
+
+      <!-- Bottom Summary Section -->
+      <div class="bottom-section">
+        Table / Details Section Placeholder
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MZE Cellular | Sales Performance Reports</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      background-color: black;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 20vw;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 0;
+    }
+
+    .brand {
+      text-align: center;
+    }
+
+    .brand img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    .brand h2 {
+      margin-top: 10px;
+      color: #00bfff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 15px 30px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: #1e90ff;
+      border-radius: 10px;
+    }
+
+    .logout {
+      color: gray;
+      text-align: center;
+      padding: 15px;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      background: white;
+      border-top-left-radius: 25px;
+      border-bottom-left-radius: 25px;
+      margin: 15px;
+      padding: 25px;
+      color: black;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Chart grid */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    /* Square boxes */
+    .chart-box {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      aspect-ratio: 1 / 1; /* makes the box perfectly square */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .chart-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 10px rgba(124, 58, 237, 0.25);
+    }
+
+    .chart-box h5 {
+      color: #444;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-size: 15px;
+    }
+
+    .chart-container {
+      flex: 1;
+      position: relative;
+    }
+
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    /* Modal */
+    .modal-content {
+      border-radius: 15px;
+      background-color: white;
+      color: black;
+    }
+
+    .modal-dialog {
+      max-width: 90vw;
+    }
+
+    .modal-body {
+      height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-body canvas {
+      max-width: 100%;
+      max-height: 100%;
+    }
+    /* Top 4 boxes */
+    .top-boxes {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .box {
+      background-color: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .box:hover {
+      background-color: #7c3aed;
+      color: white;
+      border-color: #7c3aed;
+      transform: translateY(-3px);
+    }
+
+    /* Chart area */
+    .chart-section {
+      flex: 2;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    /* Bottom Table or Summary section */
+    .bottom-section {
+      flex: 1.2;
+      background-color: #f9f9f9;
+      border-radius: 20px;
+      border: 2px solid #e0e0e0;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #666;
+    }
+
+
+    @media (max-width: 1200px) {
+      .chart-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 992px) {
+      .chart-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <div class="brand">
+        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" alt="MZE Logo" />
+        <h2>MZE Cellular</h2>
+      </div>
+
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="reports.html" class="active">Reports</a>
+        <a href="analytics.html">Analytics</a>
+        <a href="#">Employees</a>
+        <a href="#">Inventory</a>
+        <a href="#">Settings</a>
+      </div>
+    </div>
+    <div class="logout ">Logout</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2>Monthly Sales Performance</h2>
+
+    <div class="chart-grid">
+      <script>
+        const months = [
+          "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+        document.write(
+          months.map(m => `
+            <div class="chart-box" data-month="${m}">
+              <h5>${m}</h5>
+              <div class="chart-container">
+                <canvas id="chart-${m}"></canvas>
+              </div>
+            </div>
+          `).join('')
+        );
+      </script>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chartModalLabel">Monthly Chart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <canvas id="modalChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap + Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const modalChartCtx = document.getElementById("modalChart").getContext("2d");
+    let modalChart;
+
+    months.forEach(month => {
+      const ctx = document.getElementById(`chart-${month}`).getContext("2d");
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["W1", "W2", "W3", "W4"],
+          datasets: [{
+            data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 500 + 100)),
+            borderColor: "rgba(124,58,237,1)",
+            backgroundColor: "rgba(124,58,237,0.1)",
+            tension: 0.4,
+            fill: true,
+            pointRadius: 0
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { x: { display: false }, y: { display: false } },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    });
+
+    document.querySelectorAll(".chart-box").forEach(box => {
+      box.addEventListener("click", () => {
+        const month = box.dataset.month;
+        document.getElementById("chartModalLabel").textContent = `${month} Sales Chart`;
+
+        if (modalChart) modalChart.destroy();
+
+        modalChart = new Chart(modalChartCtx, {
+          type: "bar",
+          data: {
+            labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            datasets: [{
+              label: `${month} Sales`,
+              data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 500 + 100)),
+              backgroundColor: "#7c3aed"
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, ticks: { color: "black" } },
+              x: { ticks: { color: "black" } }
+            },
+            plugins: { legend: { labels: { color: "black" } } }
+          }
+        });
+
+        new bootstrap.Modal(document.getElementById("chartModal")).show();
+      });
+    });
+  </script>
+</body>
+</html>
+
